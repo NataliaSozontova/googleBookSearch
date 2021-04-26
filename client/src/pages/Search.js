@@ -1,11 +1,6 @@
-import React, {useEffect}from 'react';
+import React, {useEffect, useState}from 'react';
 import axios from 'axios';
-
-
-
-
-
-
+import Book from '../components/Book';
 
 function Search(props) {
 
@@ -14,12 +9,17 @@ function Search(props) {
         // searchBooks();
       }, []);
 
+    
+    const [books, setBooks] = useState([]);
+
+
+
+
     const searchBooks = (event) => {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${event.target.value.toLowerCase()}`)
     .then(response => {
       console.log(response.data.items);
-      
-
+      setBooks(response.data.items);
   });
     }
 
@@ -37,6 +37,16 @@ function Search(props) {
               Search
            </button> */}
       </form>
+     
+           {books.map(book => (
+          <Book
+          bookInfo = {book}
+          />
+          
+
+          )
+          )}
+      
      Search page
   </div>
     );
